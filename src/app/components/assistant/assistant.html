@@ -16,7 +16,7 @@
               : 'bg-gray-100 text-gray-800 rounded-bl-none'
           "
         >
-          {{ msg.text }}
+          <div [innerHTML]="msg.text | markdown" class="markdown-body"></div>
         </div>
       </div>
     } @empty {

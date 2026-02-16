@@ -36,10 +36,10 @@ export class GeminiService {
       parameters: {
         type: SchemaType.OBJECT,
         properties: {
-          taskId: { type: SchemaType.STRING, description: 'The unique ID of the task' },
-          taskText: { type: SchemaType.STRING, description: 'The task description' },
+          taskTitle: { type: SchemaType.STRING, description: 'The title of the task to add' },
+          taskDesc: { type: SchemaType.STRING, description: 'The description of the task to add' },
         },
-        required: ['taskId', 'taskText'],
+        required: ['taskTitle', 'taskDesc'],
       },
     };
 
@@ -91,7 +91,7 @@ export class GeminiService {
 
         // Execute the local Angular service function based on Gemini's request
         if (call.name === 'addTodo') {
-          functionResult = this.todoService.addTodo(call.args['taskId'], call.args['taskText']);
+          functionResult = this.todoService.addTodo(call.args['taskTitle'], call.args['taskDesc']);
         } else if (call.name === 'markComplete') {
           functionResult = this.todoService.toggleComplete(call.args['id']);
         } else if (call.name === 'getTodosList') {

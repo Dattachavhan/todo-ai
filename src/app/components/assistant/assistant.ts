@@ -3,10 +3,11 @@ import { IChatMessage } from '../../models/todo';
 import { GeminiService } from '../../services/gemini';
 import { FormsModule } from '@angular/forms';
 import { NgClass } from '@angular/common';
+import { MarkdownPipe } from '../../pipes/markdown';
 
 @Component({
   selector: 'app-assistant',
-  imports: [FormsModule, NgClass],
+  imports: [FormsModule, NgClass, MarkdownPipe],
   templateUrl: './assistant.html',
 })
 export class Assistant {
