@@ -61,6 +61,9 @@ Navigate to `http://localhost:4200/`.
 ![Todo-add](https://github.com/user-attachments/assets/55b0e381-6ad9-4ec0-a912-cc17a7e1f890)
 
 
+
+![Todo-AI](https://github.com/user-attachments/assets/c35c0515-2ce9-4bea-afe4-b20a73a82328)
+
 ---
 
 ## 🧠 How the Agent Works
@@ -84,6 +87,7 @@ To avoid **429 (Too Many Requests)** errors on the Free Tier, this project imple
 - **Exponential Backoff**: Automatic retry logic for failed network requests.
 
 ---
+![Todo-AI](https://github.com/user-attachments/assets/141bc57d-9c90-4519-8416-1cfb2e19fe1c)
 
 ## 📄 License
 
