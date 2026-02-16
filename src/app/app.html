@@ -1,0 +1,175 @@
+<div class="flex h-screen bg-gray-50 font-sans overflow-hidden">
+  <div class="flex-1 flex flex-col p-8">
+    <div class="flex items-center justify-between mb-10">
+      <div>
+        <h1 class="text-4xl font-extrabold tracking-tight text-slate-800">My Day</h1>
+        <p class="text-slate-500 font-medium">{{ today | date: 'fullDate' }}</p>
+      </div>
+
+      <div class="flex items-center gap-4">
+        <div class="flex bg-slate-200/50 backdrop-blur-md p-1 rounded-xl border border-slate-200">
+          @for (tab of tabTypes; track tab) {
+            <button
+              (click)="activeTab.set(tab)"
+              [class.bg-white]="activeTab() === tab"
+              [class.shadow-md]="activeTab() === tab"
+              [class.text-blue-600]="activeTab() === tab"
+              class="px-5 py-2 rounded-lg text-sm font-bold transition-all capitalize"
+            >
+              {{ tab }}
+            </button>
+          }
+        </div>
+
+        @if (!showForm()) {
+          <button
+            (click)="openForm()"
+            class="bg-blue-600 hover:bg-blue-700 hover:scale-105 active:scale-95 text-white px-6 py-2.5 rounded-xl font-bold shadow-lg shadow-blue-200 transition-all flex items-center gap-2"
+          >
+            <span class="text-xl">+</span> New Task
+          </button>
+        }
+      </div>
+    </div>
+
+    @if (showForm()) {
+      <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 mb-6">
+        <h2 class="text-2xl font-bold mb-6 text-slate-800 flex items-center gap-2">
+          {{ editingId() ? 'Update Task' : 'Create New Task' }}
+        </h2>
+
+        <div class="mb-4">
+          <label class="text-sm font-bold text-slate-500 ml-1">Task Title</label>
+          <div
+            class="relative w-full h-11 bg-gray-50 border border-gray-200 rounded-lg overflow-hidden focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-blue-500"
+          >
+            <span
+              class="absolute inset-0 px-3 py-2.5 text-gray-400 pointer-events-none whitespace-pre z-0 text-base font-sans"
+              >{{ titleInput() }}{{ titleSuggestion() }}</span
+            >
+            <input
+              type="text"
+              [(ngModel)]="titleInput"
+              (ngModelChange)="onTitleTyping($event)"
+              (keydown)="handleKeydown($event, 'title')"
+              class="relative w-full h-full px-3 py-2.5 bg-transparent outline-none z-10 text-gray-900 text-base font-sans"
+              placeholder="Buy groceries..."
+              autofocus
+            />
+          </div>
+        </div>
+
+        <div class="mb-6">
+          <label class="text-sm font-bold text-slate-500 ml-1">Notes / Description</label>
+          <div
+            class="relative w-full h-11 bg-gray-50 border border-gray-200 rounded-lg overflow-hidden focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-blue-500"
+          >
+            <span
+              class="absolute inset-0 px-3 py-2.5 text-gray-400 pointer-events-none whitespace-pre z-0 text-base font-sans"
+              >{{ descInput() }}{{ descSuggestion() }}</span
+            >
+            <input
+              type="text"
+              [(ngModel)]="descInput"
+              (ngModelChange)="onDescTyping($event)"
+              (keydown)="handleKeydown($event, 'desc')"
+              class="relative w-full h-full px-3 py-2.5 bg-transparent outline-none z-10 text-gray-900 text-base font-sans"
+              placeholder="Get milk, eggs, and bread..."
+            />
+          </div>
+        </div>
+
+        <div class="flex gap-3">
+          <button
+            (click)="saveTodo()"
+            class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg font-medium shadow transition-colors"
+            [disabled]="!titleInput() || !descInput()"
+            [class.cursor-not-allowed]="!titleInput() || !descInput()"
+            [class.opacity-50]="!titleInput() || !descInput()"
+          >
+            Save Task
+          </button>
+          <button
+            (click)="closeForm()"
+            class="bg-white hover:bg-gray-50 text-gray-700 border border-gray-300 px-5 py-2 rounded-lg font-medium transition-colors"
+          >
+            Cancel
+          </button>
+        </div>
+      </div>
+    } @else {
+      <div class="space-y-3 overflow-y-auto py-2">
+        @for (todo of displayedTodos(); track todo.id) {
+          <div
+            class="flex items-center justify-between p-4 rounded-xl shadow-sm border-l-4 transition-all"
+            [ngClass]="
+              todo.completed
+                ? 'bg-gray-50 border-emerald-500 opacity-60'
+                : 'bg-white border-blue-500 hover:shadow-md'
+            "
+          >
+            <div class="flex items-center gap-5 flex-1">
+              <div
+                class="w-8 h-8 rounded-full transition-all flex items-center justify-center shrink-0"
+                [class.bg-emerald-500]="todo.completed"
+                [class.border-emerald-500]="todo.completed"
+                [class.bg-blue-400]="!todo.completed"
+              >
+                {{ todo.id }}
+              </div>
+              <div class="flex-1">
+                <div class="flex items-center gap-3">
+                  <h4
+                    class="font-bold text-lg text-slate-800"
+                    [class.line-through]="todo.completed"
+                  >
+                    {{ todo.title }}
+                  </h4>
+                  <span
+                    class="px-2.5 py-0.5 rounded-full bg-orange-200 text-[10px] font-black uppercase tracking-wider text-slate-700 border border-slate-200"
+                  >
+                    {{ todo.createdAt | date: 'MMM d' }}
+                  </span>
+                </div>
+                <p class="text-sm text-slate-500 line-clamp-1">{{ todo.description }}</p>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <button
+                (click)="editTodo(todo)"
+                class="w-24 text-sm font-medium text-gray-500 hover:bg-blue-50 px-4 py-1.5 rounded-md transition-colors border border-gray-200"
+              >
+                Edit
+              </button>
+              <button
+                (click)="todoService.toggleComplete(todo.id)"
+                class="w-24 text-sm font-medium px-4 py-1.5 rounded-md transition-colors border border-gray-200"
+                [ngClass]="
+                  todo.completed
+                    ? 'text-emerald-600 hover:bg-emerald-50'
+                    : 'text-blue-600 hover:bg-blue-50'
+                "
+              >
+                {{ todo.completed ? 'Undo' : 'Complete' }}
+              </button>
+            </div>
+          </div>
+        } @empty {
+          <div class="flex flex-col items-center justify-center py-20 opacity-30">
+            <svg class="w-16 h-16 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="1"
+                d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
+              />
+            </svg>
+            <p class="text-lg font-bold">Nothing here yet!</p>
+          </div>
+        }
+      </div>
+    }
+  </div>
+  <app-assistant />
+</div>
