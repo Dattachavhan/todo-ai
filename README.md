@@ -58,6 +58,9 @@ ng serve
 
 Navigate to `http://localhost:4200/`.
 
+![Todo-add](https://github.com/user-attachments/assets/55b0e381-6ad9-4ec0-a912-cc17a7e1f890)
+
+
 ---
 
 ## 🧠 How the Agent Works
