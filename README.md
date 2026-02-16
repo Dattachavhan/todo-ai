@@ -1,6 +1,6 @@
-# 📝 Gemini Agentic Todo Manager
+# 📝 Todo Manager - AI Powered
 
-An advanced, AI-powered Todo application built with **Angular 19** and the **Google Gemini 2.0 Flash API**. This isn't just a chatbot; it's an **AI Agent** capable of interacting with your application's state to manage tasks through natural language.
+An advanced, AI-powered Todo application built with **Angular 21** and the **Google Gemini 2.5 Flash API**. This isn't just a chatbot; it's an **AI Agent** capable of interacting with your application's state to manage tasks through natural language.
 
 ## ✨ Key Features
 
@@ -8,7 +8,7 @@ An advanced, AI-powered Todo application built with **Angular 19** and the **Goo
 - **⚡ Real-time Autocomplete**: Predictive "Ghost Text" suggestions as you type, powered by a debounced Gemini stream to stay within free-tier rate limits.
 - **🗣️ Personalized Greetings**: Custom system instructions ensure the AI introduces itself and offers specific help (like finding today's tasks).
 - **🛠️ Tool Integration (Function Calling)**: Seamless bridge between the LLM and Angular services using `functionDeclarations`.
-- **🚀 Optimized Performance**: Uses `gemini-2.0-flash` for sub-second response times.
+- **🚀 Optimized Performance**: Uses `gemini-2.5-flash` for sub-second response times.
 
 ---
 
